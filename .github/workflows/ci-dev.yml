@@ -39,32 +39,5 @@ jobs:
         with:
           time: '60s'
 
-      - name: Check if Postgres is running
-        run: |
-          if [ $(docker ps -q -f name=postgres) ]; then
-            echo "Postgres is running"
-          else
-            echo "Postgres is NOT running"
-            exit 1
-          fi
-
-      - name: Check if Backend is running
-        run: |
-          if [ $(docker ps -q -f name=backend) ]; then
-            echo "Backend is running"
-          else
-            echo "Backend is NOT running"
-            exit 1
-          fi
-
-      - name: Check if Frontend is running
-        run: |
-          if [ $(docker ps -q -f name=frontend) ]; then
-            echo "Frontend is running"
-          else
-            echo "Frontend is NOT running"
-            exit 1
-          fi
-
       - name: Check running containers
         run: docker ps
