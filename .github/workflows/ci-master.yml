@@ -79,6 +79,9 @@ jobs:
           sleep 2
         done
 
+      - name: Check running containers
+        run: docker ps
+
     - name: Run curl test against Backend
       run: |
         echo "Testing the Backend service..."
