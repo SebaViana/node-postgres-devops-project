@@ -3,6 +3,8 @@ const cors = require('cors');
 const app = express();
 const tasks = require('./routes/tasks');
 
+var config = require('./config/config.js');
+
 app.use(cors());
 
 app.use(express.json());
