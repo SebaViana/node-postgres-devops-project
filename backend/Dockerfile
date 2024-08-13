@@ -10,9 +10,16 @@ RUN npm install -g sequelize-cli
 
 COPY . .
 
-RUN chmod +x start.sh
+RUN chmod +x entrypoint.sh
 
-EXPOSE 3000
+ENV DB_DIALECT=postgres
+ENV DB_HOST=postgres
+ENV DB_PORT=5432
+ENV DB_USERNAME=postgres
+ENV DB_PASSWORD=password
+ENV BACKEND_PORT=3000
 
-CMD ["sh", "start.sh"]
+EXPOSE $BACKEND_PORT
+
+CMD ["sh", "entrypoint.sh"]
 

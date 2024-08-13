@@ -27,9 +27,20 @@ const TaskList = ({ onEdit }) => {
     }
   };
 
+  const handleCreateTask = async () => {
+    try {
+      const newTask = { title: 'New Task', description: 'Describe the task', completed: false };
+      await axios.post('http://localhost:3000/tasks', newTask);
+      fetchTasks();
+    } catch (err) {
+      console.error('Error creating task:', err);
+    }
+  };
+
   return (
     <div>
       <h2>Task List</h2>
+      <button onClick={handleCreateTask}>Create Task</button>
       <ul>
         {tasks.map(task => (
           <Task key={task.id} task={task} onDelete={() => handleDelete(task.id)} onEdit={onEdit} />
