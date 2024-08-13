@@ -39,5 +39,14 @@ jobs:
         with:
           time: '60s'
 
+      - name: Check if Postgres is running
+        run: |
+          if [ $(docker ps -q -f name=postgres) ]; then
+            echo "Postgres is running"
+          else
+            echo "Postgres is NOT running"
+            exit 1
+          fi
+
       - name: Check running containers
         run: docker ps
