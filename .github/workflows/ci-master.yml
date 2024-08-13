@@ -104,16 +104,13 @@ jobs:
 
     - name: Log in to Docker Hub
       if: github.event_name == 'push'
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker images
+    - name: Push to Docker Hub
       if: github.event_name == 'push'
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: |
-          ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ env.COMMIT_HASH }}
-          ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ env.COMMIT_HASH }}
+      run: |
+        docker push ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ env.COMMIT_HASH }}
+        docker push ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ env.COMMIT_HASH }}
