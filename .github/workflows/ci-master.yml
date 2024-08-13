@@ -32,13 +32,13 @@ jobs:
 
     - name: Create Docker network
       run: |
-        docker network create bridge || true
+        docker network create ci_network || true
 
     - name: Run PostgreSQL container
       run: |
         docker run -d \
           --name postgres \
-          --network bridge \
+          --network ci_network \
           -e POSTGRES_DB=task_manager_dev \
           -e POSTGRES_USER=postgres \
           -e POSTGRES_PASSWORD=password \
@@ -59,7 +59,7 @@ jobs:
       run: |
         docker run -d \
           --name backend \
-          --network bridge \
+          --network ci_network \
           -e DB_DIALECT=postgres \
           -e DB_HOST=postgres \
           -e DB_PORT=5432 \
