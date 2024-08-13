@@ -29,13 +29,28 @@ Update the DATABASE_URL and other environment specific settings in .env.
 npx sequelize-cli db:migrate
 ```
 
-5. **Start the server**
+5. **Start the backend server**
+
+```bash
+npm start
+```
+
+6. **Install frontend dependencies**
+
+```bash
+cd ../frontend
+npm install
+```
+
+7. **Start the frontend server**
 
 ```bash
 npm start
 ```
 
 ### Usage
+
+This will start the frontend application, typically available at http://localhost:3000/.
 
 The API endpoints will be available at http://localhost:3000/ by default. Below are some example endpoints:
 
