@@ -1,0 +1,62 @@
+name: CI for dev branch
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_DB: task_manager_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypassword
+      DB_DIALECT: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: mypassword
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build the docker-compose stack
+        run: docker-compose up -d
+
+      - name: Sleep to allow services to start
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '60s'
+
+      - name: Check if Postgres is running
+        run: |
+          if [ $(docker ps -q -f name=postgres) ]; then
+            echo "Postgres is running"
+          else
+            echo "Postgres is NOT running"
+            exit 1
+          fi
+
+      - name: Check if Backend is running
+        run: |
+          if [ $(docker ps -q -f name=backend) ]; then
+            echo "Backend is running"
+          else
+            echo "Backend is NOT running"
+            exit 1
+          fi
+
+      - name: Check if Frontend is running
+        run: |
+          if [ $(docker ps -q -f name=frontend) ]; then
+            echo "Frontend is running"
+          else
+            echo "Frontend is NOT running"
+            exit 1
+          fi
+
+      - name: Check running containers
+        run: docker ps
