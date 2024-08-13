@@ -59,3 +59,20 @@ exports.deleteTask = async (req, res) => {
   }
 };
 
+exports.createTask = async (req, res) => {
+  try {
+    if (!req.body.title || !req.body.description) {
+      return res.status(400).json({ message: 'Title and description are required' });
+    }
+
+    const task = await Task.create({
+      title: req.body.title,
+      description: req.body.description,
+      completed: req.body.completed || false
+    });
+
+    res.status(201).json(task);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
