@@ -32,7 +32,9 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Build the docker-compose stack
-        run: docker-compose up --wait --wait-timeout 30
+        run: |
+          docker-compose up -d --build
+          sleep 30
 
       - name: Check running containers
         run: docker ps
