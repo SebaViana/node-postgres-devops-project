@@ -3,7 +3,7 @@ const { Task } = require('../models');
 exports.getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.findAll();
-    res.json(tasks);
+    res.status(200).json(tasks);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -13,7 +13,7 @@ exports.getTaskById = async (req, res) => {
   try {
     const task = await Task.findByPk(req.params.id);
     if (task) {
-      res.json(task);
+      res.status(200).json(task);
     } else {
       res.status(404).send('Task not found');
     }
@@ -36,7 +36,7 @@ exports.updateTask = async (req, res) => {
     const task = await Task.findByPk(req.params.id);
     if (task) {
       await task.update(req.body);
-      res.json(task);
+      res.status(200).json(task);
     } else {
       res.status(404).send('Task not found');
     }
@@ -50,7 +50,7 @@ exports.deleteTask = async (req, res) => {
     const task = await Task.findByPk(req.params.id);
     if (task) {
       await task.destroy();
-      res.send('Task deleted');
+      res.status(200).send('Task deleted');
     } else {
       res.status(404).send('Task not found');
     }
