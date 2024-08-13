@@ -81,6 +81,9 @@ jobs:
 
     - name: Check running containers
       run: docker ps
+    
+    - name: Check bridge network
+      run: docker network inspect bridge
 
     - name: Check Backend container logs
       run: docker logs backend
