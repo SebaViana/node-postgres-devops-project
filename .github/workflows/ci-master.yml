@@ -82,6 +82,12 @@ jobs:
     - name: Check running containers
       run: docker ps
 
+    - name: Check Backend container logs
+      run: docker logs backend
+
+    - name: Check Postgres container logs
+      run: docker logs postgres
+
     - name: Run curl test against Backend
       run: |
         echo "Testing the Backend service..."
