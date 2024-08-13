@@ -19,8 +19,8 @@ npm install
 
 3. **Configure environment variables**
 
-Rename .env.example to .env.
-Update the DATABASE_URL and other environment specific settings in .env.
+Rename .env.example to .env
+Update the environment specific settings in .env
 
 
 4. **Run migrations**
@@ -48,9 +48,22 @@ npm install
 npm start
 ```
 
+## Using Docker Compose
+
+
+Rename .env.example to .env
+Update the environment specific settings in .env
+
+
+To start all services defined in the Docker Compose file, run
+
+```bash
+docker-compose up
+```
+
 ### Usage
 
-This will start the frontend application, typically available at http://localhost:3000/.
+This will start the frontend application, typically available at http://localhost:3001/.
 
 The API endpoints will be available at http://localhost:3000/ by default. Below are some example endpoints:
 
