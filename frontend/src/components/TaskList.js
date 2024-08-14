@@ -43,6 +43,15 @@ const TaskList = () => {
     }
   };
 
+  const handleCompleteTask = async (id) => {
+    try {
+      await axios.put(`${backendApi}/tasks/${id}`, { completed: true });
+      fetchTasks();
+    } catch (err) {
+      console.error('Error completing task:', err);
+    }
+  };
+
   return (
     <div>
       <h2>Task List</h2>
@@ -69,7 +78,12 @@ const TaskList = () => {
       </form>
       <ul>
         {tasks.map(task => (
-          <Task key={task.id} task={task} onDelete={() => handleDelete(task.id)} />
+          <Task
+            key={task.id}
+            task={task}
+            onDelete={() => handleDelete(task.id)}
+            onComplete={() => handleCompleteTask(task.id)}
+          />
         ))}
       </ul>
     </div>
