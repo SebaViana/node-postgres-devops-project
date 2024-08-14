@@ -31,8 +31,12 @@ services:
 
   frontend:
     build: ./frontend
+    environment:
+      REACT_APP_BACKEND_API_URL: ${REACT_APP_BACKEND_API_URL}
+      FRONTEND_INTERNAL_PORT: ${FRONTEND_INTERNAL_PORT}
+      FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
     ports:
-      - "3001:80"
+      - "${FRONTEND_EXTERNAL_PORT}:${FRONTEND_INTERNAL_PORT}"
     depends_on:
       - backend
 
