@@ -4,7 +4,7 @@ import Task from './Task';
 
 const backendApi = process.env.REACT_APP_BACKEND_API_URL;
 
-const TaskList = ({ onEdit }) => {
+const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -69,7 +69,7 @@ const TaskList = ({ onEdit }) => {
       </form>
       <ul>
         {tasks.map(task => (
-          <Task key={task.id} task={task} onDelete={() => handleDelete(task.id)} onEdit={onEdit} />
+          <Task key={task.id} task={task} onDelete={() => handleDelete(task.id)} />
         ))}
       </ul>
     </div>
