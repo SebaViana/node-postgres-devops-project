@@ -14,14 +14,16 @@ services:
 
   backend:
     build: ./backend
-    ports:
-      - "3000:3000"
     environment:
       DB_DIALECT: ${DB_DIALECT}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+      BACKEND_INTERNAL_PORT: ${BACKEND_INTERNAL_PORT}
+      BACKEND_EXTERNAL_PORT: ${BACKEND_EXTERNAL_PORT}
+    ports:
+      - "${BACKEND_EXTERNAL_PORT}:${BACKEND_INTERNAL_PORT}"
     depends_on:
       - postgres
 
