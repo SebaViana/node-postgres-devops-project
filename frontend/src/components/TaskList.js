@@ -6,6 +6,8 @@ const backendApi = process.env.REACT_APP_BACKEND_API_URL;
 
 const TaskList = ({ onEdit }) => {
   const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     fetchTasks();
@@ -31,9 +33,11 @@ const TaskList = ({ onEdit }) => {
 
   const handleCreateTask = async () => {
     try {
-      const newTask = { title: 'New Task', description: 'Describe the task', completed: false };
+      const newTask = { title, description, completed: false };
       await axios.post(`${backendApi}/tasks`, newTask);
       fetchTasks();
+      setTitle(''); // Clear the input fields
+      setDescription('');
     } catch (err) {
       console.error('Error creating task:', err);
     }
@@ -42,7 +46,27 @@ const TaskList = ({ onEdit }) => {
   return (
     <div>
       <h2>Task List</h2>
-      <button onClick={handleCreateTask}>Create Task</button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleCreateTask();
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Task Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        <textarea
+          placeholder="Task Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+        <button type="submit">Create Task</button>
+      </form>
       <ul>
         {tasks.map(task => (
           <Task key={task.id} task={task} onDelete={() => handleDelete(task.id)} onEdit={onEdit} />
