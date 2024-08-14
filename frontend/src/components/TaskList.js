@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Task from './Task';
 
+const backendApi = process.env.REACT_APP_BACKEND_API_URL;
+
 const TaskList = ({ onEdit }) => {
   const [tasks, setTasks] = useState([]);
 
@@ -11,7 +13,7 @@ const TaskList = ({ onEdit }) => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/tasks');
+      const response = await axios.get(`${backendApi}/tasks`);
       setTasks(response.data);
     } catch (err) {
       console.error('Error fetching tasks:', err);
@@ -20,7 +22,7 @@ const TaskList = ({ onEdit }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/tasks/${id}`);
+      await axios.delete(`${backendApi}/tasks/${id}`);
       fetchTasks();
     } catch (err) {
       console.error('Error deleting task:', err);
@@ -30,7 +32,7 @@ const TaskList = ({ onEdit }) => {
   const handleCreateTask = async () => {
     try {
       const newTask = { title: 'New Task', description: 'Describe the task', completed: false };
-      await axios.post('http://localhost:3000/tasks', newTask);
+      await axios.post(`${backendApi}/tasks`, newTask);
       fetchTasks();
     } catch (err) {
       console.error('Error creating task:', err);
