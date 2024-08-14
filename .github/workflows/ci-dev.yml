@@ -13,16 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Print working directory and list files
-        run: |
-          pwd
-          ls -la
-
-      - name: Load environment variables
-        run: |
-          set -a
-          source .env.example
-          set +a
+      - name: Rename env vars file
+        run: mv .env.vars .env
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
