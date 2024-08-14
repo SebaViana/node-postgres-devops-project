@@ -9,19 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      POSTGRES_DB: task_manager_dev
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mypassword
-      DB_DIALECT: postgres
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USERNAME: postgres
-      DB_PASSWORD: mypassword
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Load environment variables
+        run: |
+          set -a
+          source .env.example
+          set +a
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
