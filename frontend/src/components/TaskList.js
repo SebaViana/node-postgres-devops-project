@@ -8,6 +8,7 @@ const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [filter, setFilter] = useState('not_completed'); // Default filter is "not_completed"
 
   useEffect(() => {
     fetchTasks();
@@ -52,6 +53,20 @@ const TaskList = () => {
     }
   };
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'completed') {
+      return task.completed;
+    }
+    if (filter === 'not_completed') {
+      return !task.completed;
+    }
+    return true;
+  });
+
   return (
     <div>
       <h2>Task List</h2>
@@ -76,8 +91,18 @@ const TaskList = () => {
         />
         <button type="submit">Create Task</button>
       </form>
+
+      <div>
+        <label htmlFor="filter">Filter tasks: </label>
+        <select id="filter" value={filter} onChange={handleFilterChange}>
+          <option value="not_completed">Not Completed</option>
+          <option value="completed">Completed</option>
+          <option value="all">All Tasks</option>
+        </select>
+      </div>
+
       <ul>
-        {tasks.map(task => (
+        {filteredTasks.map(task => (
           <Task
             key={task.id}
             task={task}
