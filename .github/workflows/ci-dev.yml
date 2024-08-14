@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Print working directory and list files
+        run: |
+          pwd
+          ls -la
+
       - name: Load environment variables
         run: |
           set -a
