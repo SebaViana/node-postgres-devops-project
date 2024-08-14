@@ -5,6 +5,9 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
+
+ARG REACT_APP_BACKEND_API_URL
+
 COPY . ./
 RUN npm run build
 
@@ -14,9 +17,9 @@ FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
 COPY entrypoint.sh /entrypoint.sh
+
 RUN chmod +x /entrypoint.sh
 
-ENV REACT_APP_BACKEND_API_URL=http://localhost:3000/
 ENV FRONTEND_INTERNAL_PORT=80
 
 EXPOSE $FRONTEND_INTERNAL_PORT

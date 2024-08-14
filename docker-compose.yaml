@@ -30,7 +30,10 @@ services:
       - postgres
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_BACKEND_API_URL: ${REACT_APP_BACKEND_API_URL}
     environment:
       REACT_APP_BACKEND_API_URL: ${REACT_APP_BACKEND_API_URL}
       FRONTEND_INTERNAL_PORT: ${FRONTEND_INTERNAL_PORT}
