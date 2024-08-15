@@ -12,6 +12,6 @@ check_required_env_var() {
 check_required_env_var "$POSTGRES_DB" "POSTGRES_DB"
 check_required_env_var "$POSTGRES_USER" "POSTGRES_USER"
 check_required_env_var "$POSTGRES_PASSWORD" "POSTGRES_PASSWORD"
-check_required_env_var "$POSTGRESS_INTERNAL_PORT" "POSTGRESS_INTERNAL_PORT"
+check_required_env_var "$POSTGRES_INTERNAL_PORT" "POSTGRES_INTERNAL_PORT"
 
 exec /usr/local/bin/docker-entrypoint.sh postgres
