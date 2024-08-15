@@ -133,3 +133,4 @@ jobs:
       run: |
         docker push ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ env.COMMIT_HASH }}
         docker push ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ env.COMMIT_HASH }}
+        docker push ${{ vars.DOCKERHUB_PROJECT }}:frontend-${{ env.COMMIT_HASH }}
