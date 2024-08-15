@@ -113,7 +113,7 @@ jobs:
     - name: Run curl test against Backend
       run: |
         echo "Testing the Backend service..."
-        response=$(curl -s http://127.0.0.1:3000/tasks)
+        response=$(docker exec frontend curl -s http://backend:3000/tasks)
         echo "Response: $response"
         if [ "$response" != "[]" ]; then
           echo "Test failed: Expected response [] but got $response"
