@@ -14,7 +14,10 @@ jobs:
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
-
+      
+    - name: Rename env vars file
+      run: mv .env.example .env
+        
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -22,13 +25,17 @@ jobs:
       id: vars
       run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-    - name: Build Postgre Docker image
+    - name: Build Postgres Docker image
       run: |
         docker build -t ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ env.COMMIT_HASH }} ./postgres
 
     - name: Build Backend Docker image
       run: |
         docker build -t ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ env.COMMIT_HASH }} ./backend
+
+    - name: Build Frontend Docker image
+      run: |
+        docker build -t ${{ vars.DOCKERHUB_PROJECT }}:frontend-${{ env.COMMIT_HASH }} ./frontend
 
     - name: Create Docker network
       run: |
@@ -39,9 +46,7 @@ jobs:
         docker run -d \
           --name postgres \
           --network ci_network \
-          -e POSTGRES_DB=task_manager_dev \
-          -e POSTGRES_USER=postgres \
-          -e POSTGRES_PASSWORD=password \
+          --env-file .env \
           ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ env.COMMIT_HASH }}
 
     - name: Wait for PostgreSQL to be ready
@@ -60,12 +65,7 @@ jobs:
         docker run -d \
           --name backend \
           --network ci_network \
-          -e DB_DIALECT=postgres \
-          -e DB_HOST=postgres \
-          -e DB_PORT=5432 \
-          -e DB_USERNAME=postgres \
-          -e DB_PASSWORD=password \
-          -p 3000:3000 \
+          --env-file .env \
           ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ env.COMMIT_HASH }}
 
     - name: Wait for Backend to be ready
@@ -73,6 +73,25 @@ jobs:
         echo "Waiting for Backend to be ready..."
         for i in {1..30}; do
           if curl -s http://localhost:3000/health | grep "OK"; then
+            echo "Backend is ready"
+            break
+          fi
+          sleep 2
+        done
+
+    - name: Run Frontend container
+      run: |
+        docker run -d \
+          --name frontend \
+          --network ci_network \
+          --env-file .env \
+          ${{ vars.DOCKERHUB_PROJECT }}:frontend-${{ env.COMMIT_HASH }}
+
+    - name: Wait for Frontend to be ready
+      run: |
+        echo "Waiting for Frontend to be ready..."
+        for i in {1..30}; do
+          if curl -s http://localhost:3001/health | grep "OK"; then
             echo "Backend is ready"
             break
           fi
