@@ -38,17 +38,3 @@ jobs:
         docker push ${{ vars.DOCKERHUB_PROJECT }}:postgres-${{ github.event.release.tag_name }}
         docker push ${{ vars.DOCKERHUB_PROJECT }}:backend-${{ github.event.release.tag_name }}
         docker push ${{ vars.DOCKERHUB_PROJECT }}:frontend-${{ github.event.release.tag_name }}
-
-  create_branch:    
-    name: Create branch with release tag
-    runs-on: ubuntu-latest
-    steps:
-        - name: Check out the repo
-          uses: actions/checkout@v3
-          
-        - name: Create a new branch
-          run: |
-            BRANCH_NAME="release-${{ github.event.release.tag_name }}"
-            git checkout -b $BRANCH_NAME
-            git push origin $BRANCH_NAME
-            
