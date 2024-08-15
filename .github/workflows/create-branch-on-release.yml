@@ -1,0 +1,19 @@
+name: Create Branch on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create a new branch
+        run: |
+          BRANCH_NAME="release-${{ github.event.release.tag_name }}"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
